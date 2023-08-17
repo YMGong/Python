@@ -1,7 +1,7 @@
 from __future__ import print_function
 from distutils.core import setup
 from distutils.extension import Extension
-
+import numpy
 try:
     from Cython.Build import cythonize
     ext_modules = [Extension("irlib.agc", ["irlib/agc.pyx"])]
@@ -16,8 +16,9 @@ setup(
     version = "0.5",
     packages = ["irlib"],
     ext_modules = ext_modules,
+    include_dirs=[numpy.get_include()],
     scripts = ["icepick2.py", "icerate.py", "h5_add_utm.py", "h5_dumpmeta.py", \
                "h5_replace_gps.py", "h5_generate_caches.py", "h5_consolidate.py", \
-               "h5_export.py", "h5_mat.py", "irview.py","join_radar.py", \
+               "h5_export.py", "h52mat.py", "irview.py","join_radar.py", \
                "mergepicks.py","plotline.py", "plottrace.py"],
 )

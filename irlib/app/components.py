@@ -475,7 +475,10 @@ class PickWindow(AppWindow):
             # Determine if trace already has a point, and if so, remove it
             pr = self._active_reg()
             if pr[activetrace] is not None:
-                self.ax.lines.remove(pr[activetrace][0])
+                #self.ax.lines.remove(pr[activetrace][0])
+                #changed by yongmei 15.08.2023
+                line = self.ax.lines[activetrace]
+                line.remove()
                 pr[activetrace] = None
 
             if event.button == 1:
@@ -524,13 +527,14 @@ class PickWindow(AppWindow):
                 self.yi += 1
                 self._drawpick(trace, self.yi, self.activetrace)
                 self.points[self.activetrace + self.trace0] = self.yi
-
+                self.update() #added by Yongmei 150823
             elif event.key in ('k', 'up'):
                 self._clearlastpick()
                 self.yi -= 1
                 self._drawpick(trace, self.yi, self.activetrace)
                 self.points[self.activetrace + self.trace0] = self.yi
-
+                self.update()#added by Yongmei 150823
+                
             self.fig.canvas.draw()
             self.update_radargram()
 
@@ -565,10 +569,15 @@ class PickWindow(AppWindow):
     def _clearlastpick(self):
         """ Remove the last pick point drawn, according to the
         registry. """
+        
         pr = self._active_reg()
-        if self.activetrace is not None:
-            self.ax.lines.remove(pr[self.activetrace][0])
-            pr[self.activetrace] = None
+        if pr[self.activetrace] is not None:
+                #self.ax.lines.remove(pr[activetrace][0])
+                #changed by yongmei 15.08.2023
+                line = self.ax.lines[self.activetrace]
+                line.remove()
+                pr[self.activetrace] = None
+
         return
 
     def _drawpick(self, trace, yi, activetrace):

@@ -2,7 +2,7 @@
 #
 #   Add UTM coordinates to HDF5 radar data
 #   Assumes that lat and lon can be positive or negative
-
+#import pdb
 import sys
 import os
 import shutil
@@ -73,7 +73,8 @@ fin.visit(names.append)
 datasets = [name for name in names if (isinstance(fin[name], h5py.Dataset)
                                        and 'picked' not in name)]
 
-metadata = irlib.RecordList(fin)
+#metadata = irlib.RecordList(fin)
+metadata = irlib.RecordList(INFILE)
 print("reading metadata...")
 failed = []
 for i, dataset in enumerate(datasets):
@@ -113,8 +114,10 @@ eastings = []
 northings = []
 
 xlm, ylm = calculate_centroid(lons, lats)
-zone, hemi = calculate_utm_zone(xlm, ylm)
-
+#zone, hemi = calculate_utm_zone(xlm, ylm)
+#hard code zone and hemisphere here because the code does not work well
+zone=32
+hemi='N'
 #projector = pyproj.Proj(proj='utm', zone=7, north=True)    # St Elias Range
 #projector = pyproj.Proj(proj='utm', zone=16, north=True)   # Milne Ice Shelf
 
